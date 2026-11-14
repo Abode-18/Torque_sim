@@ -23,9 +23,9 @@ weight2.style.left = `calc(50% - ${(pos2/2.54) *96}px)`
 let mouse;
 function PixeltoCm(event){
     const rect = lever.getBoundingClientRect();
-    const dx = (rect.left + rect.width/2) - event.clientX
-    const dy = (rect.top+ rect.height/2) - event.clientY
-    const distancePx = dx * Math.cos(-theta) + dy * Math.sin(-theta)
+    const dx =  event.clientX - (rect.left + rect.width/2) 
+    const dy = event.clientY -(rect.top+ rect.height/2)
+    const distancePx = dx * Math.cos(theta) + dy * Math.sin(theta)
     const distanceCm = distancePx /96 *2.54
     return distanceCm
 }
@@ -37,6 +37,7 @@ function mousePos(event) {
 }
 
 function moving_box(event) {
+    // console.log(isDown1)
     if (isDown1){
         event.preventDefault()
         pos1 = PixeltoCm(event);
@@ -95,7 +96,7 @@ function animate(current_time){
         };
         lever.style.transform = `translate(-50%,-50%) rotate(${-degree}deg)`;
         
-        console.log(`pos1: ${pos1}, pos2: ${pos2}, T: ${T}, I: ${l1+l2}, a: ${a}, degree: ${degree}, dt: ${dt}`);
+        // console.log(`pos1: ${pos1}, pos2: ${pos2}, T: ${T}, I: ${l1+l2}, a: ${a}, degree: ${degree}, dt: ${dt}`);
 
         requestAnimationFrame(animate);
 }
