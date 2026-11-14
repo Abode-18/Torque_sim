@@ -41,7 +41,7 @@ function moving_box(event) {
     if (isDown1){
         event.preventDefault()
         pos1 = PixeltoCm(event);
-        weight1.style.left = `calc(50% +${pos1/2.54 * 96}px)`;
+        weight1.style.left = `calc(50% + ${pos1/2.54 * 96}px)`;
         // console.log(pos1);
     }else if(isDown2){
         event.preventDefault()
@@ -94,7 +94,7 @@ function animate(current_time){
             theta = -max_angle;
             v = 0;
         };
-        lever.style.transform = `translate(-50%,-50%) rotate(${-degree}deg)`;
+        lever.style.transform = `translate(-50%,-50%) rotate(${degree}deg)`;
         
         // console.log(`pos1: ${pos1}, pos2: ${pos2}, T: ${T}, I: ${l1+l2}, a: ${a}, degree: ${degree}, dt: ${dt}`);
 
