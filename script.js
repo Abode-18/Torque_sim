@@ -15,8 +15,8 @@ let pos1 = 5;
 let pos2 = -5;
 let w_1 = 5
 let w_2 = 5
-weight1.style.left = `calc(50% - ${(pos1/2.54) *96}px)`
-weight2.style.left = `calc(50% - ${(pos2/2.54) *96}px)`
+weight1.style.left = `calc(50% + ${(pos1/2.54) *96}px)`
+weight2.style.left = `calc(50% + ${(pos2/2.54) *96}px)`
 
 
 /** @param {MouseEvent} event */
@@ -41,12 +41,12 @@ function moving_box(event) {
     if (isDown1){
         event.preventDefault()
         pos1 = PixeltoCm(event);
-        weight1.style.left = `${pos1/2.54 * 96}px`;
+        weight1.style.left = `calc(50% +${pos1/2.54 * 96}px)`;
         // console.log(pos1);
     }else if(isDown2){
         event.preventDefault()
         pos2 = PixeltoCm(event);
-        weight2.style.left = `${pos2/2.54 * 96}px`;
+        weight2.style.left = `calc(50% + ${pos2/2.54 * 96}px)`;
         // console.log(pos1);
     }
 }
