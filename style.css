@@ -38,3 +38,17 @@ body{
 #weight2{
     left: 36%;
 }
+
+.wieght-input {
+    position: relative;
+    width: 20px;
+    height: 20px;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%,-50%);
+    background-color: black;
+    border: 0;
+    color: white;
+    text-align: center;
+    padding: 0%;
+}
