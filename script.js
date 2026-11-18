@@ -21,13 +21,23 @@ let w_1 = parseFloat(w_1_element.value)
 let w_2 = parseFloat(w_2_element.value)
 weight1.style.left = `calc(50% + ${(pos1/2.54) *96}px)`
 weight2.style.left = `calc(50% + ${(pos2/2.54) *96}px)`
+weight1.style.width = `${Math.max(w_1*10,1)}px`;
+weight1.style.height = `${Math.max(w_1*10,1)}px`;
+weight2.style.width = `${Math.max(w_1*10,1)}px`;
+weight2.style.height = `${Math.max(w_1*10,1)}px`;
 
 w_1_element.addEventListener("input",() =>{
-    w_1 = w_1_element.value
+    w_1 = w_1_element.value;
+    weight1.style.width = `${Math.max(w_1*10,1)}px`;
+    weight1.style.height = `${Math.max(w_1*10,1)}px`;
+    console.log(weight1.style.width);
 });
 
 w_2_element.addEventListener("input",() =>{
-    w_2 = w_2_element.value
+    w_2 = w_2_element.value;
+    weight2.style.width = `${Math.max(w_2*10,1)}px`;
+    weight2.style.height = `${Math.max(w_2*10,1)}px`;
+    console.log(weight2.style.width)
 });
 /** @param {MouseEvent} event */
 let mouse;
