@@ -13,12 +13,22 @@ const weight1 = document.getElementById("weight1");
 const weight2 = document.getElementById("weight2");
 let pos1 = 5;
 let pos2 = -5;
-let w_1 = 5
-let w_2 = 5
+let w_1_element = document.getElementById("w_1")
+let w_2_element = document.getElementById("w_2")
+w_1_element.value = 5
+w_2_element.value = 5
+let w_1 = parseFloat(w_1_element.value)
+let w_2 = parseFloat(w_2_element.value)
 weight1.style.left = `calc(50% + ${(pos1/2.54) *96}px)`
 weight2.style.left = `calc(50% + ${(pos2/2.54) *96}px)`
 
+w_1_element.addEventListener("input",() =>{
+    w_1 = w_1_element.value
+});
 
+w_2_element.addEventListener("input",() =>{
+    w_2 = w_2_element.value
+});
 /** @param {MouseEvent} event */
 let mouse;
 function PixeltoCm(event){
@@ -49,21 +59,22 @@ function moving_box(event) {
         weight2.style.left = `calc(50% + ${pos2/2.54 * 96}px)`;
         // console.log(pos1);
     }
+    console.log(w_1,w_2)
 }
 let isDown1,isDown2;
-weight1.addEventListener("mousedown",function(){
+weight1.addEventListener("pointerdown",function(){
     isDown1 = true;
 });
-weight2.addEventListener("mousedown",function(){
+weight2.addEventListener("pointerdown",function(){
     isDown2 = true;
 });
-weight1.addEventListener("mouseup", function(){
+weight1.addEventListener("pointerup", function(){
     isDown1 = false;
 });
-weight2.addEventListener("mouseup", function(){
+weight2.addEventListener("pointerup", function(){
     isDown2 = false;
 });
-document.addEventListener("mousemove", (event)=> {
+document.addEventListener("pointermove", (event)=> {
     moving_box(event)
 });
 
