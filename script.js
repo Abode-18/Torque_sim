@@ -27,17 +27,27 @@ weight2.style.width = `${Math.max(w_1*10,1)}px`;
 weight2.style.height = `${Math.max(w_1*10,1)}px`;
 
 w_1_element.addEventListener("input",() =>{
-    w_1 = w_1_element.value;
-    weight1.style.width = `${Math.max(w_1*10,1)}px`;
-    weight1.style.height = `${Math.max(w_1*10,1)}px`;
-    console.log(weight1.style.width);
+    if (typeof w_1_element.value == "number") {
+        w_1 = w_1_element.value;
+        weight1.style.width = `${Math.max(w_1*10,1)}px`;
+        weight1.style.height = `${Math.max(w_1*10,1)}px`;
+        console.log(weight1.style.width);
+    } else {
+        w_1 = 5;
+    }
+    
+
 });
 
 w_2_element.addEventListener("input",() =>{
-    w_2 = w_2_element.value;
-    weight2.style.width = `${Math.max(w_2*10,1)}px`;
-    weight2.style.height = `${Math.max(w_2*10,1)}px`;
-    console.log(weight2.style.width)
+    if (typeof w_2_element.value == "number") {
+        w_2 = w_2_element.value;
+        weight1.style.width = `${Math.max(w_2*10,1)}px`;
+        weight1.style.height = `${Math.max(w_2*10,1)}px`;
+        console.log(weight2.style.width);
+    } else {
+        w_1 = 5;
+    }
 });
 /** @param {MouseEvent} event */
 let mouse;
