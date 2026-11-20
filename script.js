@@ -27,140 +27,139 @@ weight1.style.left = `calc(50% + ${(pos1/2.54) *96}px)`
 weight2.style.left = `calc(50% + ${(pos2/2.54) *96}px)`
 weight1.style.width = `${Math.max(w_1*10,1)}px`;
 weight1.style.height = `${Math.max(w_1*10,1)}px`;
-weight2.style.width = `${Math.max(w_1*10,1)}px`;
-weight2.style.height = `${Math.max(w_1*10,1)}px`;
-w_1_element.addEventListener("input",() =>{
-    // console.log(parseFloat(w_1_element.value) !== NaN && parseFloat(w_1_element.value) !== 0 && NaN && parseFloat(w_1_element.value)>0);
-    if (!Number.isNaN(parseFloat(w_1_element.value)) && parseFloat(w_1_element.value)>0)  {
+weight2.style.width = `${Math.max(w_2*10,1)}px`;
+weight2.style.height = `${Math.max(w_2*10,1)}px`;
+w_1_element.addEventListener("input",()=>{
+    if (!Number.isNaN(parseFloat(w_1_element.value)) && parseFloat(w_1_element.value)>0) {
         w_1 = parseFloat(w_1_element.value);
         last1 = w_1;
-        // console.log(w_1);
         close_error(1)
         BoxScale(weight1,w_1);
-        console.log(weight1.style.width);
     } else {
-        if (Number.isNaN(parseFloat(w_1_element.value))){
+        if (Number.isNaN(parseFloat(w_1_element.value))) {
             error_message("wieght cannot be empty.",1);
         } else if(parseFloat(w_1_element.value)<=0) {
             error_message("wieght cannot be 0 or less.",1);
-        };
-        console.log("alskd: ",(last1 != null));
-        if (last1 != null){
-            console.log("last: ",last1);
-            w_1 = last1;
-        } else {w_1 = 5;}
-        console.log(w_1);
+        }
+        w_1 = last1 != null ? last1 : 5;
         BoxScale(weight1,w_1);
-        console.log(weight1.style.width);
     }
-    
-
 });
 
-w_2_element.addEventListener("input",() =>{
-    if (!Number.isNaN(parseFloat(w_2_element.value)) && parseFloat(w_2_element.value)>0)  {
+w_2_element.addEventListener("input",()=>{
+    if (!Number.isNaN(parseFloat(w_2_element.value)) && parseFloat(w_2_element.value)>0) {
         w_2 = parseFloat(w_2_element.value);
-        last2 = w_2
-        // console.log(w_1);
+        last2 = w_2;
         BoxScale(weight2,w_2)
-        console.log(weight2.style.width);
         close_error(2)
     } else {
-        if (Number.isNaN(parseFloat(w_2_element.value))){
+        if (Number.isNaN(parseFloat(w_2_element.value))) {
             error_message("wieght cannot be empty.",2);
         } else if(parseFloat(w_2_element.value)<=0) {
             error_message("wieght cannot be 0 or less.",2);
-        };
-        console.log("alskd: ",(last2 != null));
-        if (last2 != null){
-            console.log("last2: ",last2);
-            w_2 = last2;
-        } else {w_2 = 5;}
-        console.log(w_2);
+        }
+        w_2 = last2 != null ? last2 : 5;
         BoxScale(weight2,w_2)
-        console.log(weight2.style.width);
-}});
-/** @param {MouseEvent} event */
-let mouse;
+    }
+});
+
+/** Convert a pointer's screen position to its position along the lever. */
 function PixeltoCm(event){
     const rect = lever.getBoundingClientRect();
-    const dx =  event.clientX - (rect.left + rect.width/2) 
-    const dy = event.clientY -(rect.top+ rect.height/2)
+    const dx = event.clientX - (rect.left + rect.width/2)
+    const dy = event.clientY - (rect.top + rect.height/2)
     const distancePx = dx * Math.cos(theta) + dy * Math.sin(theta)
-    const distanceCm = distancePx /96 *2.54
-    return distanceCm
+    return distancePx / 96 * 2.54
 }
 
-function mousePos(event) {
-    
+let activeBox = null;
+let activePointerId = null;
+
+function startDragging(event, box) {
+    // Editing either weight input must never start a drag on its parent box.
+    if (event.target instanceof Element && event.target.closest(".wieght-input")) {
+        return;
+    }
+    if (event.button !== undefined && event.button !== 0) {
+        return;
+    }
+
     event.preventDefault();
-    return event.clientX;
+    activeBox = box;
+    activePointerId = event.pointerId;
+    try {
+        box.setPointerCapture(event.pointerId);
+    } catch (_) {
+        // Document-level pointer listeners remain as a fallback.
+    }
 }
 
 function moving_box(event) {
-    // console.log(isDown1)
-    if (isDown1){
-        event.preventDefault()
-        pos1 = PixeltoCm(event);
-        weight1.style.left = `calc(50% + ${pos1/2.54 * 96}px)`;
-        // console.log(pos1);
-    }else if(isDown2){
-        event.preventDefault()
-        pos2 = PixeltoCm(event);
-        weight2.style.left = `calc(50% + ${pos2/2.54 * 96}px)`;
-        // console.log(pos1);
+    if (!activeBox || event.pointerId !== activePointerId) {
+        return;
     }
-    console.log(w_1,w_2)
+    event.preventDefault();
+    const position = PixeltoCm(event);
+    if (activeBox === weight1) {
+        pos1 = position;
+        weight1.style.left = `calc(50% + ${pos1/2.54 * 96}px)`;
+    } else {
+        pos2 = position;
+        weight2.style.left = `calc(50% + ${pos2/2.54 * 96}px)`;
+    }
 }
-let isDown1,isDown2;
-weight1.addEventListener("pointerdown",function(){
-    isDown1 = true;
-});
-weight2.addEventListener("pointerdown",function(){
-    isDown2 = true;
-});
-weight1.addEventListener("pointerup", function(){
-    isDown1 = false;
-});
-weight2.addEventListener("pointerup", function(){
-    isDown2 = false;
-});
-document.addEventListener("pointermove", (event)=> {
-    moving_box(event)
-});
 
+function stopDragging(event) {
+    if (!activeBox || (event.pointerId !== undefined && event.pointerId !== activePointerId)) {
+        return;
+    }
+    const box = activeBox;
+    const pointerId = activePointerId;
+    activeBox = null;
+    activePointerId = null;
+    try {
+        if (box.hasPointerCapture(pointerId)) {
+            box.releasePointerCapture(pointerId);
+        }
+    } catch (_) {
+        // The pointer may already have been released by the browser.
+    }
+}
 
+weight1.addEventListener("pointerdown", event => startDragging(event, weight1));
+weight2.addEventListener("pointerdown", event => startDragging(event, weight2));
+document.addEventListener("pointermove", moving_box);
+document.addEventListener("pointerup", stopDragging);
+document.addEventListener("pointercancel", stopDragging);
+window.addEventListener("blur", () => stopDragging({}));
 
 function animate(current_time){
-        if (last_time == null){
-            last_time = current_time;
-        }
-        dt = (current_time - last_time)/1000;
+    if (last_time == null) {
         last_time = current_time;
-        l1 = pos1*pos1 * w_1;
-        l2 = pos2*pos2 * w_2;
-        T1 = pos1 * w_1*9.8;
-        T2 = pos2 * w_2 * 9.8;
-        T = T1+T2;
-        a = T/(l1+l2);
+    }
+    const dt = (current_time - last_time)/1000;
+    last_time = current_time;
+    l1 = pos1*pos1 * w_1;
+    l2 = pos2*pos2 * w_2;
+    T1 = pos1 * w_1*9.8;
+    T2 = pos2 * w_2 * 9.8;
+    T = T1+T2;
+    a = T/(l1+l2);
 
-        v+= a * dt;
-        v*=0.98
-        theta += v*dt;
-        const max_angle = 30 * (Math.PI / 180)
-        let degree = theta * (180/Math.PI);
-        if (theta > max_angle){
-            theta = max_angle;
-            v = 0;
-        }else if (theta < -max_angle){
-            theta = -max_angle;
-            v = 0;
-        };
-        lever.style.transform = `translate(-50%,-50%) rotate(${degree}deg)`;
-        
-        // console.log(`pos1: ${pos1}, pos2: ${pos2}, T: ${T}, I: ${l1+l2}, a: ${a}, degree: ${degree}, dt: ${dt}`);
-
-        requestAnimationFrame(animate);
+    v += a * dt;
+    v *= 0.98;
+    theta += v*dt;
+    const max_angle = 30 * (Math.PI / 180);
+    let degree = theta * (180/Math.PI);
+    if (theta > max_angle) {
+        theta = max_angle;
+        v = 0;
+    } else if (theta < -max_angle) {
+        theta = -max_angle;
+        v = 0;
+    }
+    lever.style.transform = `translate(-50%,-50%) rotate(${degree}deg)`;
+    requestAnimationFrame(animate);
 }
 let last_w = []
 function error_message(msg,w){
@@ -169,35 +168,29 @@ function error_message(msg,w){
         error.style.display = "flex";
         error_txt.textContent = msg;
     }
-
 }
 
 function close_error(w){
-    console.log(last_w,w)
-    console.log("w in last_w", last_w.filter(item => item != w).length == 0)
-    if ( last_w.filter(item => item != w).length == 0){
+    if (last_w.filter(item => item != w).length == 0){
         error.style.display = "none";
-    };
+    }
     last_w = last_w.filter(item => item != w);
 }
+
 /**
- * 
- * @param {HTMLDivElement} box 
- * @param {*Number} w 
+ * @param {HTMLDivElement} box
+ * @param {number} w
  */
 function BoxScale(box,w){
-    console.log("w: ",w)
     if (w>50) {
-        
         box.style.width = `500px`;
         box.style.height = `500px`;
     } else if(w<1) {
         box.style.width = `10px`;
-        box.style.height = `10px`;    
+        box.style.height = `10px`;
     } else {
-        box.style.width = `${w*10}px`
-        box.style.height = `${w*10}px`
+        box.style.width = `${w*10}px`;
+        box.style.height = `${w*10}px`;
     }
-    console.log("box_width", weight2.style.width)
 }
 requestAnimationFrame(animate);
