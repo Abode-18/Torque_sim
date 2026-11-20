@@ -19,6 +19,7 @@ w_1_element.value = 5
 w_2_element.value = 5
 let w_1 = parseFloat(w_1_element.value)
 let w_2 = parseFloat(w_2_element.value)
+let last1,last2;
 weight1.style.left = `calc(50% + ${(pos1/2.54) *96}px)`
 weight2.style.left = `calc(50% + ${(pos2/2.54) *96}px)`
 weight1.style.width = `${Math.max(w_1*10,1)}px`;
@@ -27,28 +28,48 @@ weight2.style.width = `${Math.max(w_1*10,1)}px`;
 weight2.style.height = `${Math.max(w_1*10,1)}px`;
 
 w_1_element.addEventListener("input",() =>{
-    if (typeof w_1_element.value == "number") {
-        w_1 = w_1_element.value;
+    // console.log(parseFloat(w_1_element.value) !== NaN && parseFloat(w_1_element.value) !== 0 && NaN && parseFloat(w_1_element.value)>0);
+    if (!Number.isNaN(parseFloat(w_1_element.value)) && parseFloat(w_1_element.value)>0)  {
+        w_1 = parseFloat(w_1_element.value);
+        last1 = w_1
+        // console.log(w_1);
         weight1.style.width = `${Math.max(w_1*10,1)}px`;
         weight1.style.height = `${Math.max(w_1*10,1)}px`;
         console.log(weight1.style.width);
     } else {
-        w_1 = 5;
+        console.log("alskd: ",(last1 != null));
+        if (last1 != null){
+            console.log("last: ",last1);
+            w_1 = last1;
+        } else {w_1 = 5;}
+        console.log(w_1);
+        weight1.style.width = `${Math.max(w_1*10,1)}px`;
+        weight1.style.height = `${Math.max(w_1*10,1)}px`;
+        console.log(weight1.style.width);
     }
     
 
 });
 
 w_2_element.addEventListener("input",() =>{
-    if (typeof w_2_element.value == "number") {
-        w_2 = w_2_element.value;
-        weight1.style.width = `${Math.max(w_2*10,1)}px`;
-        weight1.style.height = `${Math.max(w_2*10,1)}px`;
+    if (!Number.isNaN(parseFloat(w_2_element.value)) && parseFloat(w_2_element.value)>0)  {
+        w_2 = parseFloat(w_2_element.value);
+        last2 = w_2
+        // console.log(w_1);
+        weight2.style.width = `${Math.max(w_2*10,1)}px`;
+        weight2.style.height = `${Math.max(w_2*10,1)}px`;
         console.log(weight2.style.width);
     } else {
-        w_1 = 5;
-    }
-});
+        console.log("alskd: ",(last2 != null));
+        if (last2 != null){
+            console.log("last2: ",last2);
+            w_2 = last2;
+        } else {w_2 = 5;}
+        console.log(w_2);
+        weight2.style.width = `${Math.max(w_1*10,1)}px`;
+        weight2.style.height = `${Math.max(w_1*10,1)}px`;
+        console.log(weight2.style.width);
+}});
 /** @param {MouseEvent} event */
 let mouse;
 function PixeltoCm(event){
