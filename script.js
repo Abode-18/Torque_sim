@@ -12,6 +12,7 @@ const lever = document.getElementById("lever")
 const weight1 = document.getElementById("weight1");
 const weight2 = document.getElementById("weight2");
 const error = document.getElementById("error");
+error.style.display = "none"
 const error_txt = document.getElementById("error-text");
 let pos1 = 5;
 let pos2 = -5;
@@ -28,7 +29,6 @@ weight1.style.width = `${Math.max(w_1*10,1)}px`;
 weight1.style.height = `${Math.max(w_1*10,1)}px`;
 weight2.style.width = `${Math.max(w_1*10,1)}px`;
 weight2.style.height = `${Math.max(w_1*10,1)}px`;
-
 w_1_element.addEventListener("input",() =>{
     // console.log(parseFloat(w_1_element.value) !== NaN && parseFloat(w_1_element.value) !== 0 && NaN && parseFloat(w_1_element.value)>0);
     if (!Number.isNaN(parseFloat(w_1_element.value)) && parseFloat(w_1_element.value)>0)  {
@@ -152,7 +152,11 @@ function animate(current_time){
         requestAnimationFrame(animate);
 }
 function error_message(msg){
-    error_txt.textContent = msg
+    if (msg){
+        error.style.display = "flex";
+        error_txt.textContent = msg;
+    }
+
 }
 /**
  * 
