@@ -11,8 +11,8 @@ let last_time = null;
 const lever = document.getElementById("lever")
 const weight1 = document.getElementById("weight1");
 const weight2 = document.getElementById("weight2");
-const error = document.getElementById("error")
-const error_txt = document.getElementById("error-text")
+const error = document.getElementById("error");
+const error_txt = document.getElementById("error-text");
 let pos1 = 5;
 let pos2 = -5;
 let w_1_element = document.getElementById("w_1")
@@ -35,8 +35,8 @@ w_1_element.addEventListener("input",() =>{
         w_1 = parseFloat(w_1_element.value);
         last1 = w_1
         // console.log(w_1);
-        weight1.style.width = `${Math.max(w_1*10,1)}px`;
-        weight1.style.height = `${Math.max(w_1*10,1)}px`;
+
+        BoxScale(weight1,w_1)
         console.log(weight1.style.width);
     } else {
         console.log("alskd: ",(last1 != null));
@@ -45,8 +45,7 @@ w_1_element.addEventListener("input",() =>{
             w_1 = last1;
         } else {w_1 = 5;}
         console.log(w_1);
-        weight1.style.width = `${Math.max(w_1*10,1)}px`;
-        weight1.style.height = `${Math.max(w_1*10,1)}px`;
+        BoxScale(weight1,w_1)
         console.log(weight1.style.width);
     }
     
@@ -58,8 +57,7 @@ w_2_element.addEventListener("input",() =>{
         w_2 = parseFloat(w_2_element.value);
         last2 = w_2
         // console.log(w_1);
-        weight2.style.width = `${Math.max(w_2*10,1)}px`;
-        weight2.style.height = `${Math.max(w_2*10,1)}px`;
+        BoxScale(weight2,w_2)
         console.log(weight2.style.width);
     } else {
         console.log("alskd: ",(last2 != null));
@@ -68,8 +66,7 @@ w_2_element.addEventListener("input",() =>{
             w_2 = last2;
         } else {w_2 = 5;}
         console.log(w_2);
-        weight2.style.width = `${Math.max(w_1*10,1)}px`;
-        weight2.style.height = `${Math.max(w_1*10,1)}px`;
+        BoxScale(weight2,w_2)
         console.log(weight2.style.width);
 }});
 /** @param {MouseEvent} event */
@@ -157,5 +154,24 @@ function animate(current_time){
 function error_message(msg){
     error_txt.textContent = msg
 }
-
+/**
+ * 
+ * @param {HTMLDivElement} box 
+ * @param {*Number} w 
+ */
+function BoxScale(box,w){
+    console.log("w: ",w)
+    if (w>50) {
+        
+        box.style.width = `500px`;
+        box.style.height = `500px`;
+    } else if(w<1) {
+        box.style.width = `10px`;
+        box.style.height = `10px`;    
+    } else {
+        box.style.width = `${w*10}px`
+        box.style.height = `${w*10}px`
+    }
+    console.log("box_width", weight2.style.width)
+}
 requestAnimationFrame(animate);
