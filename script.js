@@ -11,6 +11,8 @@ let last_time = null;
 const lever = document.getElementById("lever")
 const weight1 = document.getElementById("weight1");
 const weight2 = document.getElementById("weight2");
+const error = document.getElementById("error")
+const error_txt = document.getElementById("error-text")
 let pos1 = 5;
 let pos2 = -5;
 let w_1_element = document.getElementById("w_1")
@@ -152,6 +154,8 @@ function animate(current_time){
 
         requestAnimationFrame(animate);
 }
-
+function error_message(msg){
+    error_txt.textContent = msg
+}
 
 requestAnimationFrame(animate);
