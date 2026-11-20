@@ -33,19 +33,24 @@ w_1_element.addEventListener("input",() =>{
     // console.log(parseFloat(w_1_element.value) !== NaN && parseFloat(w_1_element.value) !== 0 && NaN && parseFloat(w_1_element.value)>0);
     if (!Number.isNaN(parseFloat(w_1_element.value)) && parseFloat(w_1_element.value)>0)  {
         w_1 = parseFloat(w_1_element.value);
-        last1 = w_1
+        last1 = w_1;
         // console.log(w_1);
-
-        BoxScale(weight1,w_1)
+        close_error(1)
+        BoxScale(weight1,w_1);
         console.log(weight1.style.width);
     } else {
+        if (Number.isNaN(parseFloat(w_1_element.value))){
+            error_message("wieght cannot be empty.",1);
+        } else if(parseFloat(w_1_element.value)<=0) {
+            error_message("wieght cannot be 0 or less.",1);
+        };
         console.log("alskd: ",(last1 != null));
         if (last1 != null){
             console.log("last: ",last1);
             w_1 = last1;
         } else {w_1 = 5;}
         console.log(w_1);
-        BoxScale(weight1,w_1)
+        BoxScale(weight1,w_1);
         console.log(weight1.style.width);
     }
     
@@ -59,7 +64,13 @@ w_2_element.addEventListener("input",() =>{
         // console.log(w_1);
         BoxScale(weight2,w_2)
         console.log(weight2.style.width);
+        close_error(2)
     } else {
+        if (Number.isNaN(parseFloat(w_2_element.value))){
+            error_message("wieght cannot be empty.",2);
+        } else if(parseFloat(w_2_element.value)<=0) {
+            error_message("wieght cannot be 0 or less.",2);
+        };
         console.log("alskd: ",(last2 != null));
         if (last2 != null){
             console.log("last2: ",last2);
@@ -151,12 +162,23 @@ function animate(current_time){
 
         requestAnimationFrame(animate);
 }
-function error_message(msg){
+let last_w = []
+function error_message(msg,w){
+    last_w.push(w);
     if (msg){
         error.style.display = "flex";
         error_txt.textContent = msg;
     }
 
+}
+
+function close_error(w){
+    console.log(last_w,w)
+    console.log("w in last_w", last_w.filter(item => item != w).length == 0)
+    if ( last_w.filter(item => item != w).length == 0){
+        error.style.display = "none";
+    };
+    last_w = last_w.filter(item => item != w);
 }
 /**
  * 
