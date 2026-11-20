@@ -97,39 +97,42 @@ function mousePos(event) {
     return event.clientX;
 }
 
+let activeBox = null;
+let activePointerId = null;
+
 function moving_box(event) {
-    // console.log(isDown1)
-    if (isDown1){
-        event.preventDefault()
-        pos1 = PixeltoCm(event);
+    if (!activeBox || event.pointerId !== activePointerId) return;
+    event.preventDefault();
+    const position = PixeltoCm(event);
+    if (activeBox === weight1) {
+        pos1 = position;
         weight1.style.left = `calc(50% + ${pos1/2.54 * 96}px)`;
-        // console.log(pos1);
-    }else if(isDown2){
-        event.preventDefault()
-        pos2 = PixeltoCm(event);
+    } else {
+        pos2 = position;
         weight2.style.left = `calc(50% + ${pos2/2.54 * 96}px)`;
-        // console.log(pos1);
     }
-    console.log(w_1,w_2)
 }
-let isDown1,isDown2;
-weight1.addEventListener("pointerdown",function(){
-    isDown1 = true;
-});
-weight2.addEventListener("pointerdown",function(){
-    isDown2 = true;
-});
-weight1.addEventListener("pointerup", function(){
-    isDown1 = false;
-});
-weight2.addEventListener("pointerup", function(){
-    isDown2 = false;
-});
-document.addEventListener("pointermove", (event)=> {
-    moving_box(event)
-});
 
+function startDragging(event, box) {
+    if (event.target instanceof Element && event.target.closest(".wieght-input")) return;
+    if (event.button !== undefined && event.button !== 0) return;
+    event.preventDefault();
+    activeBox = box;
+    activePointerId = event.pointerId;
+    box.setPointerCapture(event.pointerId);
+}
 
+function stopDragging(event) {
+    if (!activeBox || event.pointerId !== activePointerId) return;
+    activeBox = null;
+    activePointerId = null;
+}
+
+weight1.addEventListener("pointerdown", event => startDragging(event, weight1));
+weight2.addEventListener("pointerdown", event => startDragging(event, weight2));
+document.addEventListener("pointermove", moving_box);
+document.addEventListener("pointerup", stopDragging);
+document.addEventListener("pointercancel", stopDragging);
 
 function animate(current_time){
         if (last_time == null){
