@@ -24,8 +24,6 @@ body{
 
 .wieght{
     position: absolute;
-    width: 50px;
-    height: 50px;
     top: 50%;
     background-color: black;
     transform: translate(-50%,-100%);
@@ -37,4 +35,53 @@ body{
 
 #weight2{
     left: 36%;
+}
+
+.wieght-input {
+    position: relative;
+    width: 20px;
+    height: 20px;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%,-50%);
+    background-color: black;
+    border: 0;
+    color: white;
+    text-align: center;
+    padding: 0%;
+}
+
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+input[type="number"] {
+    -moz-appearance: textfield;
+}
+
+p{
+    position: absolute;
+    color: crimson;
+    top: 70%;
+    left: 50%;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    transform: translate(-50%,-50%);
+}
+
+.error-icon {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    width: 18px;
+    height: 18px;
+    border: 2px solid crimson;
+    border-radius: 50%;
+    color: crimson;
+    font-weight: bold;
 }
