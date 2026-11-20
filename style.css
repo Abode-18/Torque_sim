@@ -27,6 +27,14 @@ body{
     top: 50%;
     background-color: black;
     transform: translate(-50%,-100%);
+    touch-action: none;
+    user-select: none;
+    -webkit-user-select: none;
+    cursor: grab;
+}
+
+.wieght:active{
+    cursor: grabbing;
 }
 
 #weight1{
@@ -49,6 +57,10 @@ body{
     color: white;
     text-align: center;
     padding: 0%;
+    touch-action: manipulation;
+    user-select: text;
+    -webkit-user-select: text;
+    cursor: text;
 }
 
 input[type="number"]::-webkit-inner-spin-button,
