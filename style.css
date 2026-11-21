@@ -27,6 +27,7 @@ body{
     top: 50%;
     background-color: black;
     transform: translate(-50%,-100%);
+    touch-action: none;
 }
 
 #weight1{
