@@ -113,16 +113,20 @@ function moving_box(event) {
     console.log(w_1,w_2)
 }
 let isDown1,isDown2;
-weight1.addEventListener("pointerdown",function(){
+weight1.addEventListener("pointerdown",function(event){
+    if (event.target.closest(".wieght-input")) return;
     isDown1 = true;
 });
-weight2.addEventListener("pointerdown",function(){
+weight2.addEventListener("pointerdown",function(event){
+    if (event.target.closest(".wieght-input")) return;
     isDown2 = true;
 });
-weight1.addEventListener("pointerup", function(){
+document.addEventListener("pointerup", function(){
     isDown1 = false;
+    isDown2 = false;
 });
-weight2.addEventListener("pointerup", function(){
+document.addEventListener("pointercancel", function(){
+    isDown1 = false;
     isDown2 = false;
 });
 document.addEventListener("pointermove", (event)=> {
