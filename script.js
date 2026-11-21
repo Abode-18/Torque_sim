@@ -132,6 +132,9 @@ document.addEventListener("pointercancel", function(){
 document.addEventListener("pointermove", (event)=> {
     moving_box(event)
 });
+document.addEventListener("touchmove", (event) => {
+    if (isDown1 || isDown2) event.preventDefault();
+}, { passive: false });
 
 
 
